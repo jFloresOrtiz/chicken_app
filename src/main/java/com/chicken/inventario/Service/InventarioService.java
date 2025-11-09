@@ -1,0 +1,26 @@
+package com.chicken.inventario.Service;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.chicken.inventario.Model.Inventario;
+import com.chicken.inventario.Model.Response;
+import com.chicken.inventario.Repository.InventarioRepository;
+
+@Service
+public class InventarioService {
+    private InventarioRepository repository;
+    public InventarioService(InventarioRepository repository){
+        this.repository = repository;
+    }
+
+    public ResponseEntity<Response<List<Inventario>>> GetProductByCode(String code){
+        Response<List<Inventario>> response = new Response<>();
+        response.data = repository.getAll();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+}
