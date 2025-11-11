@@ -7,5 +7,6 @@ public class Inventario {
     public int id;
     public String codigo;
     public String descripcion;
+    public String unidad;
     
 }

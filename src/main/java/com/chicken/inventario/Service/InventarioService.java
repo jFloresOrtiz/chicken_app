@@ -17,9 +17,9 @@ public class InventarioService {
         this.repository = repository;
     }
 
-    public ResponseEntity<Response<List<Inventario>>> GetProductByCode(String code){
-        Response<List<Inventario>> response = new Response<>();
-        response.data = repository.getAll();
+    public ResponseEntity<Response<Inventario>> GetProductByCode(String code){
+        Response<Inventario> response = new Response<>();
+        response.data = repository.getProductByCodigo(code);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }

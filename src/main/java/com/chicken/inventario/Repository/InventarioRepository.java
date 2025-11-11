@@ -21,27 +21,30 @@ public class InventarioRepository {
         this.dataSource = dataSource;
     }
 
-    public List<Inventario> getAll() {
-        List<Inventario> lista = new ArrayList<>();
+    public Inventario getProductByCodigo(String codigo) {
+      Inventario m = null; // inicializamos en null, devolveremos null si no existe
 
-        String query = "SELECT id, codigo, descripcion FROM mercaderia";
+      String query = "SELECT id, codigo, descripcion, unidad FROM mercaderia WHERE codigo = ?";
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+      try (Connection conn = dataSource.getConnection();
+          PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            while (rs.next()) {
-                Inventario m = new Inventario();
-                m.setId(rs.getInt("id"));
-                m.setCodigo(rs.getString("codigo"));
-                m.setDescripcion(rs.getString("descripcion"));
-                lista.add(m);
-            }
+          stmt.setString(1, codigo); // asignamos el parámetro del WHERE
+          try (ResultSet rs = stmt.executeQuery()) {
+              if (rs.next()) { // solo esperamos un resultado
+                  m = new Inventario();
+                  m.setId(rs.getInt("id"));
+                  m.setCodigo(rs.getString("codigo"));
+                  m.setDescripcion(rs.getString("descripcion"));
+                  m.setUnidad(rs.getString("unidad"));
+              }
+          }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
 
-        return lista;
+      return m; // devuelve el objeto encontrado o null si no hay coincidencia
     }
+
 }
