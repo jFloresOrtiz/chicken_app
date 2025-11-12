@@ -24,4 +24,9 @@ public class InventarioController {
     public ResponseEntity<Response<Inventario>> GetProduct(@RequestParam String codigo){
         return service.GetProductByCode(codigo);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<Response<List<Inventario>>> allProducts(){
+        return service.allProducts();
+    }
 }

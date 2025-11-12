@@ -23,4 +23,11 @@ public class InventarioService {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+
+    public ResponseEntity<Response<List<Inventario>>> allProducts(){
+        Response<List<Inventario>> response = new Response<>();
+        response.data = repository.getAllProducts();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
 }

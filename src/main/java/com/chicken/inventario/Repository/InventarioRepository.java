@@ -22,7 +22,7 @@ public class InventarioRepository {
     }
 
     public Inventario getProductByCodigo(String codigo) {
-      Inventario m = null; // inicializamos en null, devolveremos null si no existe
+      Inventario m = null; 
 
       String query = "SELECT id, codigo, descripcion, unidad FROM mercaderia WHERE codigo = ?";
 
@@ -46,5 +46,31 @@ public class InventarioRepository {
 
       return m; // devuelve el objeto encontrado o null si no hay coincidencia
     }
+
+    public List<Inventario> getAllProducts() {
+    List<Inventario> productos = new ArrayList<>();
+
+    String query = "SELECT id, codigo, descripcion, unidad FROM mercaderia";
+
+    try (Connection conn = dataSource.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Inventario m = new Inventario();
+            m.setId(rs.getInt("id"));
+            m.setCodigo(rs.getString("codigo"));
+            m.setDescripcion(rs.getString("descripcion"));
+            m.setUnidad(rs.getString("unidad"));
+            productos.add(m);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return productos;
+}
+
 
 }
